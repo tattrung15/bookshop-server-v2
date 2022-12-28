@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Banner {
+  id        BigInt    @id @default(autoincrement())
+  imageUrl  String    @map("image_url") @db.VarChar(255)
+  isActive  Boolean   @map("is_active")
+  title     String    @db.VarChar(255)
+  type      Int
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+
+  @@map("banners")
+}
+
+model Category {
+  id               BigInt     @id @default(autoincrement())
+  description      String?    @db.Text
+  isAuthor         Boolean    @map("is_author")
+  name             String     @db.VarChar(255)
+  slug             String     @db.VarChar(255)
+  createdAt        DateTime?  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime?  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  parentCategoryId BigInt?    @map("parent_category_id")
+  parentCategory   Category?  @relation(name: "categories_categories_fk", fields: [parentCategoryId], references: [id], onDelete: NoAction)
+  subCategories    Category[] @relation(name: "categories_categories_fk")
+  products         Product[]  @relation(name: "categories_products_fk")
+
+  @@map("categories")
+}
+
+model Delivery {
+  id         BigInt      @id @default(autoincrement())
+  index      String      @unique @db.VarChar(255)
+  value      String      @db.VarChar(255)
+  createdAt  DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt  DateTime?   @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  saleOrders SaleOrder[] @relation(name: "deliveries_sale_orders_fk")
+
+  @@map("deliveries")
+}
+
+model OrderItem {
+  id          BigInt    @id @default(autoincrement())
+  quantity    Int
+  productId   BigInt    @map("product_id")
+  saleOrderId BigInt    @map("sale_order_id")
+  createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  product     Product   @relation(name: "products_order_items_fk", fields: [productId], references: [id], onDelete: NoAction)
+  saleOrder   SaleOrder @relation(name: "sale_orders_order_items_fk", fields: [saleOrderId], references: [id], onDelete: NoAction)
+
+  @@unique([productId, saleOrderId])
+  @@map("order_items")
+}
+
+model ProductImage {
+  id            BigInt    @id @default(autoincrement())
+  imagePublicId String?   @map("image_public_id") @db.VarChar(255)
+  imageUrl      String    @map("image_url") @db.VarChar(255)
+  productId     BigInt    @map("product_id")
+  createdAt     DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  product       Product   @relation(name: "products_product_images_fk", fields: [productId], references: [id], onDelete: NoAction)
+
+  @@map("product_images")
+}
+
+model ProductRate {
+  id        BigInt    @id @default(autoincrement())
+  comment   String?   @db.Text
+  value     Int
+  productId BigInt    @map("product_id")
+  userId    BigInt    @map("user_id")
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  product   Product   @relation(name: "products_product_rates_fk", fields: [productId], references: [id], onDelete: NoAction)
+  user      User      @relation(name: "users_product_rates_fk", fields: [userId], references: [id], onDelete: NoAction)
+
+  @@unique([userId, productId])
+  @@map("product_rates")
+}
+
+model Product {
+  id                BigInt         @id @default(autoincrement())
+  author            String?        @db.VarChar(255)
+  currentNumber     Int            @map("current_number")
+  longDescription   String         @map("long_description") @db.Text
+  numberOfPage      Int            @map("number_of_page")
+  price             BigInt
+  quantityPurchased Int?           @map("quantity_purchased")
+  shortDescription  String?        @map("short_description") @db.VarChar(255)
+  slug              String         @db.VarChar(255)
+  title             String         @db.VarChar(255)
+  categoryId        BigInt         @map("category_id")
+  createdAt         DateTime?      @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt         DateTime?      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  category          Category?      @relation(name: "categories_products_fk", fields: [categoryId], references: [id], onDelete: NoAction)
+  orderItems        OrderItem[]    @relation(name: "products_order_items_fk")
+  productImages     ProductImage[] @relation(name: "products_product_images_fk")
+  productRates      ProductRate[]  @relation(name: "products_product_rates_fk")
+
+  @@map("products")
+}
+
+model SaleOrder {
+  id              BigInt      @id @default(autoincrement())
+  customerAddress String      @map("customer_address") @db.VarChar(255)
+  phone           String      @db.VarChar(255)
+  deliveryId      BigInt      @map("delivery_id")
+  userId          BigInt      @map("user_id")
+  createdAt       DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime?   @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  delivery        Delivery    @relation(name: "deliveries_sale_orders_fk", fields: [deliveryId], references: [id], onDelete: NoAction)
+  user            User        @relation(name: "users_sale_orders_fk", fields: [userId], references: [id], onDelete: NoAction)
+  orderItems      OrderItem[] @relation(name: "sale_orders_order_items_fk")
+
+  @@map("sale_orders")
+}
+
+model User {
+  id           BigInt        @id @default(autoincrement())
+  address      String        @db.VarChar(255)
+  amount       BigInt
+  email        String        @db.VarChar(255)
+  firstName    String        @map("first_name") @db.VarChar(255)
+  lastName     String        @map("last_name") @db.VarChar(255)
+  password     String        @db.VarChar(255)
+  phone        String        @db.VarChar(255)
+  role         String        @db.VarChar(255)
+  username     String        @unique @db.VarChar(255)
+  createdAt    DateTime?     @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  productRates ProductRate[] @relation(name: "users_product_rates_fk")
+  saleOrders   SaleOrder[]   @relation(name: "users_sale_orders_fk")
+
+  @@map("users")
+}
