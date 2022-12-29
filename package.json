@@ -18,7 +18,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:clear": "yarn ts-node prisma/clear.ts",
+    "db:seed": "yarn ts-node prisma/seed/seed.ts",
+    "db:test-seed": "yarn ts-node prisma/test-seed/seed.ts"
   },
   "dependencies": {
     "@algoan/nestjs-logging-interceptor": "^2.1.14",
