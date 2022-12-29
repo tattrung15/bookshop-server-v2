@@ -10,13 +10,33 @@ $ yarn install
   Note that this command generates the prisma client as well.
 
 ```shell
-$ npx prisma generate
+$ yarn prisma migrate dev
 ```
 
-- Push the initial schema to the database
+- Reset your database **if you want to erase all data in your database and recreate it**
+  See [official doc](https://www.prisma.io/docs/reference/api-reference/command-reference#migrate-reset) for details.
+  This command resets the database, applies migrations, and generates client. You can skip client generation and seeding with `--skip-generate` and `--skip-seed`, respectively.
 
 ```shell
-$ npx prisma db push
+$ yarn prisma migrate reset
+```
+
+- Truncate tables
+
+```shell
+$ yarn db:clear
+```
+
+- Insert seed data
+
+```shell
+$ yarn db:seed
+```
+
+- Insert test-seed data
+
+```shell
+$ yarn db:test-seed
 ```
 
 ## Running the app
