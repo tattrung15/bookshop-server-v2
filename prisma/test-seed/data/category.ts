@@ -39,7 +39,7 @@ function slugify(string: string): string {
 const today = new Date();
 
 export const categoryData = categoryNames.map((item, index) => ({
-  id: BigInt(index + 1),
+  id: index + 1,
   name: item,
   description: null,
   parentCategoryId: null,

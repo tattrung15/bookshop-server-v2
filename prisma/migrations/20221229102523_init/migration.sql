@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "banners" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "image_url" VARCHAR(255),
     "is_active" BOOLEAN NOT NULL,
     "title" VARCHAR(255) NOT NULL,
@@ -13,21 +13,21 @@ CREATE TABLE "banners" (
 
 -- CreateTable
 CREATE TABLE "categories" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "description" TEXT,
     "is_author" BOOLEAN NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "slug" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "parent_category_id" BIGINT,
+    "parent_category_id" INTEGER,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "deliveries" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "index" VARCHAR(255) NOT NULL,
     "value" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
@@ -38,10 +38,10 @@ CREATE TABLE "deliveries" (
 
 -- CreateTable
 CREATE TABLE "order_items" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "product_id" BIGINT NOT NULL,
-    "sale_order_id" BIGINT NOT NULL,
+    "product_id" INTEGER NOT NULL,
+    "sale_order_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
 
@@ -50,10 +50,10 @@ CREATE TABLE "order_items" (
 
 -- CreateTable
 CREATE TABLE "product_images" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "image_public_id" VARCHAR(255),
     "image_url" VARCHAR(255) NOT NULL,
-    "product_id" BIGINT NOT NULL,
+    "product_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
 
@@ -62,11 +62,11 @@ CREATE TABLE "product_images" (
 
 -- CreateTable
 CREATE TABLE "product_rates" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "comment" TEXT,
     "value" INTEGER NOT NULL,
-    "product_id" BIGINT NOT NULL,
-    "user_id" BIGINT NOT NULL,
+    "product_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
 
@@ -75,17 +75,17 @@ CREATE TABLE "product_rates" (
 
 -- CreateTable
 CREATE TABLE "products" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "author" VARCHAR(255),
     "current_number" INTEGER NOT NULL,
     "long_description" TEXT NOT NULL,
     "number_of_page" INTEGER NOT NULL,
-    "price" BIGINT NOT NULL,
+    "price" INTEGER NOT NULL,
     "quantity_purchased" INTEGER,
     "short_description" VARCHAR(255),
     "slug" VARCHAR(255) NOT NULL,
     "title" VARCHAR(255) NOT NULL,
-    "category_id" BIGINT NOT NULL,
+    "category_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
 
@@ -94,11 +94,11 @@ CREATE TABLE "products" (
 
 -- CreateTable
 CREATE TABLE "sale_orders" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "customer_address" VARCHAR(255) NOT NULL,
     "phone" VARCHAR(255) NOT NULL,
-    "delivery_id" BIGINT NOT NULL,
-    "user_id" BIGINT NOT NULL,
+    "delivery_id" INTEGER NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
 
@@ -107,9 +107,9 @@ CREATE TABLE "sale_orders" (
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "address" VARCHAR(255) NOT NULL,
-    "amount" BIGINT NOT NULL,
+    "amount" INTEGER NOT NULL,
     "email" VARCHAR(255) NOT NULL,
     "first_name" VARCHAR(255) NOT NULL,
     "last_name" VARCHAR(255) NOT NULL,

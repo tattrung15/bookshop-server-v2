@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import { hashSync } from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import { deliveryData } from "./data/delivery";
 
@@ -25,7 +26,7 @@ async function main() {
         firstName: "Admin",
         lastName: "Admin",
         username: "admin",
-        password: "admin",
+        password: hashSync("admin", 10),
         phone: "0123456789",
         role: "ADMIN",
         createdAt: new Date(),

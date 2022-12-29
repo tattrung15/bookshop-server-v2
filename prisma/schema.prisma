@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Banner {
-  id        BigInt    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   imageUrl  String?   @map("image_url") @db.VarChar(255)
   isActive  Boolean   @map("is_active")
   title     String    @db.VarChar(255)
@@ -23,14 +23,14 @@ model Banner {
 }
 
 model Category {
-  id               BigInt     @id @default(autoincrement())
+  id               Int        @id @default(autoincrement())
   description      String?    @db.Text
   isAuthor         Boolean    @map("is_author")
   name             String     @db.VarChar(255)
   slug             String     @db.VarChar(255)
   createdAt        DateTime?  @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt        DateTime?  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
-  parentCategoryId BigInt?    @map("parent_category_id")
+  parentCategoryId Int?       @map("parent_category_id")
   parentCategory   Category?  @relation(name: "categories_categories_fk", fields: [parentCategoryId], references: [id], onDelete: NoAction)
   subCategories    Category[] @relation(name: "categories_categories_fk")
   products         Product[]  @relation(name: "categories_products_fk")
@@ -39,7 +39,7 @@ model Category {
 }
 
 model Delivery {
-  id         BigInt      @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   index      String      @unique @db.VarChar(255)
   value      String      @db.VarChar(255)
   createdAt  DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
@@ -50,10 +50,10 @@ model Delivery {
 }
 
 model OrderItem {
-  id          BigInt    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   quantity    Int
-  productId   BigInt    @map("product_id")
-  saleOrderId BigInt    @map("sale_order_id")
+  productId   Int       @map("product_id")
+  saleOrderId Int       @map("sale_order_id")
   createdAt   DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   product     Product   @relation(name: "products_order_items_fk", fields: [productId], references: [id], onDelete: NoAction)
@@ -64,10 +64,10 @@ model OrderItem {
 }
 
 model ProductImage {
-  id            BigInt    @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   imagePublicId String?   @map("image_public_id") @db.VarChar(255)
   imageUrl      String    @map("image_url") @db.VarChar(255)
-  productId     BigInt    @map("product_id")
+  productId     Int       @map("product_id")
   createdAt     DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   product       Product   @relation(name: "products_product_images_fk", fields: [productId], references: [id], onDelete: NoAction)
@@ -76,11 +76,11 @@ model ProductImage {
 }
 
 model ProductRate {
-  id        BigInt    @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   comment   String?   @db.Text
   value     Int
-  productId BigInt    @map("product_id")
-  userId    BigInt    @map("user_id")
+  productId Int       @map("product_id")
+  userId    Int       @map("user_id")
   createdAt DateTime? @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime? @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   product   Product   @relation(name: "products_product_rates_fk", fields: [productId], references: [id], onDelete: NoAction)
@@ -91,17 +91,17 @@ model ProductRate {
 }
 
 model Product {
-  id                BigInt         @id @default(autoincrement())
+  id                Int            @id @default(autoincrement())
   author            String?        @db.VarChar(255)
   currentNumber     Int            @map("current_number")
   longDescription   String         @map("long_description") @db.Text
   numberOfPage      Int            @map("number_of_page")
-  price             BigInt
+  price             Int
   quantityPurchased Int?           @map("quantity_purchased")
   shortDescription  String?        @map("short_description") @db.VarChar(255)
   slug              String         @db.VarChar(255)
   title             String         @db.VarChar(255)
-  categoryId        BigInt         @map("category_id")
+  categoryId        Int            @map("category_id")
   createdAt         DateTime?      @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt         DateTime?      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   category          Category?      @relation(name: "categories_products_fk", fields: [categoryId], references: [id], onDelete: NoAction)
@@ -113,11 +113,11 @@ model Product {
 }
 
 model SaleOrder {
-  id              BigInt      @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   customerAddress String      @map("customer_address") @db.VarChar(255)
   phone           String      @db.VarChar(255)
-  deliveryId      BigInt      @map("delivery_id")
-  userId          BigInt      @map("user_id")
+  deliveryId      Int         @map("delivery_id")
+  userId          Int         @map("user_id")
   createdAt       DateTime?   @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt       DateTime?   @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   delivery        Delivery    @relation(name: "deliveries_sale_orders_fk", fields: [deliveryId], references: [id], onDelete: NoAction)
@@ -128,9 +128,9 @@ model SaleOrder {
 }
 
 model User {
-  id           BigInt        @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   address      String        @db.VarChar(255)
-  amount       BigInt
+  amount       Int
   email        String        @db.VarChar(255)
   firstName    String        @map("first_name") @db.VarChar(255)
   lastName     String        @map("last_name") @db.VarChar(255)
