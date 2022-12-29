@@ -12,6 +12,7 @@ import { SocketAdapter } from "./gateways/socket/adapters/socket.adapter";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: false });
   app.useWebSocketAdapter(new SocketAdapter(app));
+  app.setGlobalPrefix("api");
   app.useLogger(app.get(CustomLogger));
   app.useGlobalPipes(
     new ValidationPipe({
