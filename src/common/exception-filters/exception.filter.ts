@@ -5,6 +5,7 @@ import {
   HttpException,
   InternalServerErrorException,
   Logger,
+  ForbiddenException,
 } from "@nestjs/common";
 import { Response } from "express";
 import { ErrorResponse } from "../dto/error-response.dto";
@@ -26,6 +27,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     switch (true) {
       case exception instanceof AppException:
         message = exception.message;
+        break;
+      case exception instanceof ForbiddenException:
+        message = "Access denied";
         break;
       case exception instanceof ValidationErrorException:
         const errors = (<ValidationErrorException>exception).errors;

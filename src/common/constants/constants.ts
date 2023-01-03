@@ -1,3 +1,5 @@
+export const PAGING_DEFAULT_LIMIT = 20;
+
 export enum DELIVERY_INDEX {
   ADDED_TO_CART = "AddedToCart",
   WAITING_TO_CONFIRM = "WaitingToConfirm",

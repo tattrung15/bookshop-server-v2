@@ -4,6 +4,8 @@ import {
   Post,
   UseInterceptors,
   ClassSerializerInterceptor,
+  HttpStatus,
+  HttpCode,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LoginBodyDto } from "./dto/login.dto";
@@ -14,6 +16,7 @@ export class AuthController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Post("login")
+  @HttpCode(HttpStatus.OK)
   login(@Body() body: LoginBodyDto) {
     return this.authService.login(body);
   }

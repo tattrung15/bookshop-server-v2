@@ -9,8 +9,9 @@ import { LoggerModule } from "./common/logger/logger.module";
 import { PrismaModule } from "./common/prisma/prisma.module";
 import { PrismaService } from "./common/prisma/prisma.service";
 import { SocketModule } from "./gateways/socket/socket.module";
-import { AuthModule } from "./api/auth/auth.module";
 import { routes } from "./routes";
+import { AuthModule } from "./api/auth/auth.module";
+import { UsersModule } from "./api/users/users.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { routes } from "./routes";
     PrismaModule,
     SocketModule,
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [

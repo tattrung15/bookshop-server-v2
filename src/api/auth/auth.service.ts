@@ -1,9 +1,9 @@
 import { AppException } from "@/common/exception/error.exception";
+import { getResponse } from "@/common/helper/helper";
 import { PrismaService } from "@/common/prisma/prisma.service";
 import { bcryptCompare } from "@/common/utils/encryption.utils";
-import { Injectable } from "@nestjs/common";
-import { HttpStatus } from "@nestjs/common/enums";
-import { JwtService } from "@nestjs/jwt/dist";
+import { Injectable, HttpStatus } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { LoginBodyDto } from "./dto/login.dto";
 import { LoginBody } from "./entities/login.entity";
 
@@ -33,7 +33,7 @@ export class AuthService {
     }
 
     const accessToken = this.jwtService.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, role: user.role },
       { expiresIn: "1d" },
     );
 
@@ -54,6 +54,6 @@ export class AuthService {
       },
     };
 
-    return response;
+    return getResponse(response);
   }
 }

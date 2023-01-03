@@ -8,3 +8,11 @@ export class CommonHeader {
   @Expose({ name: "authorization" })
   authorization: string;
 }
+
+export class JwtPayload {
+  id: number;
+  username: string;
+  role: string;
+  iat: number;
+  exp: number;
+}

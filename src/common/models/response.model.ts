@@ -1,8 +1,14 @@
 class ResponsePayload<T> {
+  statusCode: number;
   message: string;
   result: ResponseResult<T> | null;
 
-  constructor(message: string, result: ResponseResult<T> | null = null) {
+  constructor(
+    result: ResponseResult<T> | null = null,
+    message = "Request success.",
+    statusCode = 200,
+  ) {
+    this.statusCode = statusCode;
     this.message = message;
     this.result = result;
   }

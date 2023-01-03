@@ -87,7 +87,7 @@ export const IsString = (
     context: { reasonCode: ReasoncodeType },
   });
 export const IsNumber = (
-  options: IsNumberOptions,
+  options?: IsNumberOptions,
   validationOptions?: ValidationOptions,
 ): PropertyDecorator =>
   _IsNumber(options, {
